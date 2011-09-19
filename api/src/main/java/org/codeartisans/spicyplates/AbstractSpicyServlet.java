@@ -30,6 +30,7 @@ import org.codeartisans.java.toolbox.io.IO;
  * Init-parameters:
  *      packages        Coma separated list of root templates packages
  *      directories     Coma separated list of root templates directories
+ *      web-resources   If equals to 'true', then webapp resources are used
  * All other init parameters are added as global context for all templates
  * Query strings from URLs are added as local context.
  * 

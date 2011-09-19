@@ -16,21 +16,70 @@ package org.codeartisans.spicyplates;
 import java.io.File;
 import java.io.Reader;
 
+/**
+ * A factory for creating new {@link SpicyPlate}s instances.
+ * 
+ * {@link SpicyFactory} implementations holds a default global {@link SpicyContext}
+ * used when creating new {@link SpicyPlate} instances without giving one.
+ */
 public interface SpicyFactory
 {
 
+    /**
+     * @param defaultGlobalContext {@link SpicyContext} to use as global context when none is provided
+     * @return This very {@link SpicyFactory} for fluent use
+     */
     SpicyFactory withDefaultGlobalContext( SpicyContext defaultGlobalContext );
 
-    SpicyPlate spicyPlate( File templateFile );
+    /**
+     * @param templateFile File containing the template's data
+     * @return A new {@link SpicyPlate} using the default global context
+     * @throws SpicyPlatesFailure when unable to load/parse the underlying template
+     */
+    SpicyPlate spicyPlate( File templateFile )
+            throws SpicyPlatesFailure;
 
-    SpicyPlate spicyPlate( Reader templateReader );
+    /**
+     * @param templateReader {@link Reader} of the template's data
+     * @return A new {@link SpicyPlate} using the default global context
+     * @throws SpicyPlatesFailure when unable to load/parse the underlying template
+     */
+    SpicyPlate spicyPlate( Reader templateReader )
+            throws SpicyPlatesFailure;
 
-    SpicyPlate spicyPlate( String template );
+    /**
+     * @param template {@link String} containing the template's data
+     * @return A new {@link SpicyPlate} using the default global context
+     * @throws SpicyPlatesFailure when unable to load/parse the underlying template
+     */
+    SpicyPlate spicyPlate( String template )
+            throws SpicyPlatesFailure;
 
-    SpicyPlate spicyPlate( SpicyContext globalContext, File templateFile );
+    /**
+     * @param globalContext The {@link SpicyContext} to use as global context for this {@link SpicyPlate}
+     * @param templateFile File containing the template's data
+     * @return A new {@link SpicyPlate}
+     * @throws SpicyPlatesFailure when unable to load/parse the underlying template
+     */
+    SpicyPlate spicyPlate( SpicyContext globalContext, File templateFile )
+            throws SpicyPlatesFailure;
 
-    SpicyPlate spicyPlate( SpicyContext globalContext, Reader templateReader );
+    /**
+     * @param globalContext The {@link SpicyContext} to use as global context for this {@link SpicyPlate}
+     * @param templateReader {@link Reader} of the template's data
+     * @return A new {@link SpicyPlate}
+     * @throws SpicyPlatesFailure when unable to load/parse the underlying template
+     */
+    SpicyPlate spicyPlate( SpicyContext globalContext, Reader templateReader )
+            throws SpicyPlatesFailure;
 
-    SpicyPlate spicyPlate( SpicyContext globalContext, String template );
+    /**
+     * @param template {@link String} containing the template's data
+     * @param globalContext The {@link SpicyContext} to use as global context for this {@link SpicyPlate}
+     * @return A new {@link SpicyPlate}
+     * @throws SpicyPlatesFailure when unable to load/parse the underlying template
+     */
+    SpicyPlate spicyPlate( SpicyContext globalContext, String template )
+            throws SpicyPlatesFailure;
 
 }

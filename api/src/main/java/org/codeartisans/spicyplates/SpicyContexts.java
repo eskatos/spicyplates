@@ -23,6 +23,9 @@ public final class SpicyContexts
      */
     public static final SpicyContext EMPTY_CONTEXT = new SimpleSpicyContext( Collections.EMPTY_MAP );
 
+    /**
+     * @return a new {@link SpicyContext} containing only the given entry
+     */
     public static SpicyContext singletonContext( String key, Object value )
     {
         return new SimpleSpicyContext( Collections.singletonMap( key, value ) );

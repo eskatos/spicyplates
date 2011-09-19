@@ -15,6 +15,9 @@ package org.codeartisans.spicyplates;
 
 import java.util.Map;
 
+/**
+ * Holds objects available to {@link SpicyPlate}s.
+ */
 public interface SpicyContext
         extends Map<String, Object>
 {

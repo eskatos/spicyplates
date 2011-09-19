@@ -21,8 +21,19 @@ import org.slf4j.LoggerFactory;
 public interface SpicyPlate
 {
 
+    /**
+     * SpicyPlate main {@link Logger}.
+     * 
+     * For easy diagnostics all spicyplates code use this logger.
+     */
     Logger LOGGER = LoggerFactory.getLogger( SpicyPlate.class.getPackage().getName() );
 
+    /**
+     * Render the underlying template to the given {@link Writer}.
+     * 
+     * @param context   {@link SpicyContext} to use during this render
+     * @param output    This is where the template result will be written
+     */
     void render( SpicyContext context, Writer output );
 
 }

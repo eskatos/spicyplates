@@ -16,6 +16,12 @@ package org.codeartisans.spicyplates;
 public interface SpicyRepository
 {
 
-    SpicyPlate get( String name );
+    /**
+     * @param name  The name of the template
+     * @return The {@link SpicyPlate} or null if not found
+     * @throws SpicyPlatesFailure when template is found but could not be loaded/parsed
+     */
+    SpicyPlate get( String name )
+            throws SpicyPlatesFailure;
 
 }
