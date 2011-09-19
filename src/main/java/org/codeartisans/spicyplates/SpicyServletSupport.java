@@ -144,17 +144,11 @@ final class SpicyServletSupport
 
     static SpicyRepository buildRepository( ServletConfig config, Delegate delegate )
     {
-        SpicyPlate.LOGGER.info( config.getServletContext().getContextPath() );
-        SpicyPlate.LOGGER.info( config.getServletContext().getRealPath( "index.jsp" ) );
-        SpicyPlate.LOGGER.info( "" + config.getServletContext().getResourceAsStream( "/index.jsp" ) );
         return buildRepository( new ConfigWrapper( config ), delegate );
     }
 
     static SpicyRepository buildRepository( FilterConfig config, Delegate delegate )
     {
-        SpicyPlate.LOGGER.info( config.getServletContext().getContextPath() );
-        SpicyPlate.LOGGER.info( config.getServletContext().getRealPath( "index.jsp" ) );
-        SpicyPlate.LOGGER.info( "" + config.getServletContext().getResourceAsStream( "/index.jsp" ) );
         return buildRepository( new ConfigWrapper( config ), delegate );
     }
 

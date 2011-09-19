@@ -13,7 +13,6 @@
  */
 package org.codeartisans.spicyplates;
 
-import org.codeartisans.spicyplates.erb.ERBClasspathSpicyRepository;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -22,6 +21,7 @@ import java.io.StringWriter;
 import java.util.Date;
 
 import org.codeartisans.java.toolbox.io.IO;
+import org.codeartisans.spicyplates.erb.ERBClasspathSpicyRepository;
 import org.codeartisans.spicyplates.erb.ERBDirectorySpicyRepository;
 import org.codeartisans.spicyplates.multi.MultiSpicyRepository;
 import org.codeartisans.spicyplates.stringtemplate.STClasspathSpicyRepository;
@@ -73,7 +73,7 @@ public class SpicyRepositoryTest
     private String runTestOnTemplate( SpicyRepository repository, String templateName )
     {
         SpicyPlate index = repository.get( templateName );
-        assertNotNull( "Unable to load " + templateName + " template", index );
+        assertNotNull( "Template " + templateName + " was null", index );
         StringWriter output = new StringWriter();
         Date date = new Date();
         index.render( SpicyContexts.singletonContext( "date", date ), output );

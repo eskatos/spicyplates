@@ -16,7 +16,7 @@
 ## Work in progress
 
 * (###-) Easy web usage
-  * Write a SpicyFilter that allows live editing of templates
+  * Write unit tests for Servlets & Filters
 * (----) Provide a way to register template helpers
 * (----) Split the project in modules: core/erb/st/multi ...
 

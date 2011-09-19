@@ -13,11 +13,15 @@
  */
 package org.codeartisans.spicyplates;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.ServletContext;
 
+import org.codeartisans.java.toolbox.StringUtils;
 import org.codeartisans.java.toolbox.exceptions.NullArgumentException;
 import org.codeartisans.java.toolbox.io.IO;
 
@@ -28,6 +32,8 @@ public abstract class AbstractWebResourcesSpicyRepository
     private final ServletContext servletContext;
     private final SpicyContext globalContext;
     private final SpicyFactory factory;
+    private final Map<String, SpicyPlate> templates = new HashMap<String, SpicyPlate>();
+    private final Map<String, Long> mtimes = new HashMap<String, Long>();
 
     public AbstractWebResourcesSpicyRepository( ServletContext servletContext, SpicyContext globalContext, SpicyFactory factory )
     {
@@ -44,22 +50,52 @@ public abstract class AbstractWebResourcesSpicyRepository
     protected abstract boolean acceptTemplateName( String name );
 
     @Override
-    public SpicyPlate get( String name )
+    public final synchronized SpicyPlate get( String name )
     {
         NullArgumentException.ensureNotEmpty( "SpicyPlate name", name );
+        SpicyPlate template = null;
         if ( acceptTemplateName( name ) ) {
-            InputStream stream = servletContext.getResourceAsStream( "/" + name );
-            if ( stream != null ) {
-                Reader reader = null;
-                try {
-                    reader = new InputStreamReader( stream );
-                    return factory.spicyPlate( globalContext, reader );
-                } finally {
-                    IO.closeSilently( reader );
+            String realPath = servletContext.getRealPath( name );
+            if ( !StringUtils.isEmpty( realPath ) ) {
+                // Templates are on filesystem
+                File file = new File( realPath );
+                if ( file.exists() ) {
+                    Long mtime = mtimes.get( name );
+                    if ( mtime == null || mtime < file.lastModified() ) {
+                        // First load or template changed
+                        template = factory.spicyPlate( globalContext, file );
+                        templates.put( name, template );
+                        mtimes.put( name, file.lastModified() );
+                        SpicyPlate.LOGGER.debug( "WebResourcesSpicyRepository loaded template {} from filesystem", name );
+
+                    } else {
+                        // Using template cache
+                        template = templates.get( name );
+                        SpicyPlate.LOGGER.debug( "WebResourcesSpicyRepository loaded template {} from cache", name );
+                    }
+                }
+            } else {
+                // Templates are in classpath, always use cache
+                template = templates.get( name );
+                if ( template == null ) {
+                    InputStream stream = servletContext.getResourceAsStream( "/" + name );
+                    if ( stream != null ) {
+                        Reader reader = null;
+                        try {
+                            reader = new InputStreamReader( stream );
+                            template = factory.spicyPlate( globalContext, reader );
+                        } finally {
+                            IO.closeSilently( reader );
+                        }
+                    }
+                    templates.put( name, template );
+                    SpicyPlate.LOGGER.debug( "WebResourcesSpicyRepository loaded template {} from classpath", name );
+                } else {
+                    SpicyPlate.LOGGER.debug( "WebResourcesSpicyRepository loaded template {} from cache", name );
                 }
             }
         }
-        return null;
+        return template;
     }
 
 }

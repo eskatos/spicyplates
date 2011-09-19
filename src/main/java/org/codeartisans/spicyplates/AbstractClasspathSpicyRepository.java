@@ -13,9 +13,11 @@
  */
 package org.codeartisans.spicyplates;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +33,7 @@ public abstract class AbstractClasspathSpicyRepository
     private final SpicyContext globalContext;
     private final SpicyFactory factory;
     private final Map<String, SpicyPlate> templates = new HashMap<String, SpicyPlate>();
+    private final Map<String, Long> mtimes = new HashMap<String, Long>();
 
     public AbstractClasspathSpicyRepository( ClassLoader classLoader, String rootPackage, SpicyContext globalContext, SpicyFactory factory )
     {
@@ -69,18 +72,46 @@ public abstract class AbstractClasspathSpicyRepository
     public final synchronized SpicyPlate get( String name )
     {
         NullArgumentException.ensureNotEmpty( "SpicyPlate name", name );
-        SpicyPlate template = templates.get( name );
-        if ( template == null && acceptTemplateName( name ) ) {
-            InputStream stream = classLoader.getResourceAsStream( rootPath + "/" + name );
-            if ( stream != null ) {
-                Reader reader = null;
-                try {
-                    reader = new InputStreamReader( stream );
-                    template = factory.spicyPlate( globalContext, reader );
-                } finally {
-                    IO.closeSilently( reader );
+        SpicyPlate template = null;
+        if ( acceptTemplateName( name ) ) {
+            URL url = classLoader.getResource( rootPath + "/" + name );
+            if ( url != null ) {
+                if ( "file".equals( url.getProtocol() ) ) {
+                    // Templates are on filesystem
+                    File file = new File( url.getPath() );
+                    if ( file.exists() ) {
+                        Long mtime = mtimes.get( name );
+                        if ( mtime == null || mtime < file.lastModified() ) {
+                            // First load or template changed
+                            template = factory.spicyPlate( globalContext, file );
+                            templates.put( name, template );
+                            mtimes.put( name, file.lastModified() );
+                            SpicyPlate.LOGGER.debug( "ClasspathSpicyRepository loaded template {} from filesystem", name );
+
+                        } else {
+                            // Using template cache
+                            template = templates.get( name );
+                            SpicyPlate.LOGGER.debug( "ClasspathSpicyRepository loaded template {} from cache", name );
+                        }
+                    }
+                } else {
+                    // Templates are in classpath, always use cache
+                    template = templates.get( name );
+                    if ( template == null ) {
+                        InputStream stream = classLoader.getResourceAsStream( rootPath + "/" + name );
+                        Reader reader = null;
+                        try {
+                            reader = new InputStreamReader( stream );
+                            template = factory.spicyPlate( globalContext, reader );
+                        } finally {
+                            IO.closeSilently( reader );
+                        }
+                        templates.put( name, template );
+                        SpicyPlate.LOGGER.debug( "ClasspathSpicyRepository loaded template {} from classpath", name );
+                    } else {
+                        SpicyPlate.LOGGER.debug( "ClasspathSpicyRepository loaded template {} from cache", name );
+                    }
                 }
-                templates.put( name, template );
             }
         }
         return template;

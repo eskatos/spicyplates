@@ -96,10 +96,9 @@ public abstract class AbstractSpicyFilter
         if ( !StringUtils.isEmpty( templateName ) && templateName.startsWith( "/" ) ) {
             templateName = templateName.substring( 1 );
         }
-        templateName = uriToTemplateName( templateName );
+        templateName = mapTemplateName( templateName );
         SpicyPlate template = repository.get( templateName );
         if ( template != null ) {
-            SpicyPlate.LOGGER.info( "SpicyFilter got a request for {} and a template match", templateName );
             Writer writer = null;
             try {
                 writer = new OutputStreamWriter( httpResponse.getOutputStream() );
@@ -109,8 +108,9 @@ public abstract class AbstractSpicyFilter
                 }
                 populateRequestContext( httpRequest, requestContext );
                 template.render( requestContext, writer );
+                SpicyPlate.LOGGER.debug( "SpicyFilter rendered {} template", templateName );
             } catch ( Exception ex ) {
-                String message = "Unable to render template " + templateName;
+                String message = "SpicyFilter was unable to render template " + templateName;
                 SpicyPlate.LOGGER.error( message, ex );
                 httpResponse.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR, message );
             } finally {
@@ -132,9 +132,9 @@ public abstract class AbstractSpicyFilter
         SpicyPlate.LOGGER.info( "SpicyFilter destroyed" );
     }
 
-    protected String uriToTemplateName( String pathInfo )
+    protected String mapTemplateName( String originalTemplateName )
     {
-        return pathInfo;
+        return originalTemplateName;
     }
 
     protected void populateGlobalContext( SpicyContext globalContext )

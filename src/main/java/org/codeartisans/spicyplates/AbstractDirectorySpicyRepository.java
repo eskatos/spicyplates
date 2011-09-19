@@ -27,6 +27,7 @@ public abstract class AbstractDirectorySpicyRepository
     private final SpicyContext globalContext;
     private final SpicyFactory factory;
     private final Map<String, SpicyPlate> templates = new HashMap<String, SpicyPlate>();
+    private final Map<String, Long> mtimes = new HashMap<String, Long>();
 
     public AbstractDirectorySpicyRepository( File rootDir, SpicyContext globalContext, SpicyFactory factory )
     {
@@ -42,7 +43,6 @@ public abstract class AbstractDirectorySpicyRepository
 
     protected abstract boolean acceptTemplateName( String name );
 
-    // TODO Reload template when changed
     @Override
     public final synchronized SpicyPlate get( String name )
     {
@@ -50,9 +50,20 @@ public abstract class AbstractDirectorySpicyRepository
         SpicyPlate template = templates.get( name );
         if ( template == null && acceptTemplateName( name ) ) {
             File file = new File( rootDir, name );
-            if ( file.exists() && file.canRead() ) {
-                template = factory.spicyPlate( globalContext, file );
-                templates.put( name, template );
+            if ( file.exists() ) {
+                Long mtime = mtimes.get( name );
+                if ( mtime == null || mtime < file.lastModified() ) {
+                    // First load or template changed
+                    template = factory.spicyPlate( globalContext, file );
+                    templates.put( name, template );
+                    mtimes.put( name, file.lastModified() );
+                    SpicyPlate.LOGGER.debug( "DirectorySpicyRepository loaded template {} from filesystem", name );
+
+                } else {
+                    // Using template cache
+                    template = templates.get( name );
+                    SpicyPlate.LOGGER.debug( "DirectorySpicyRepository loaded template {} from cache", name );
+                }
             }
         }
         return template;

@@ -108,10 +108,9 @@ public abstract class AbstractSpicyServlet
         if ( !StringUtils.isEmpty( templateName ) && templateName.startsWith( "/" ) ) {
             templateName = templateName.substring( 1 );
         }
-        templateName = pathInfoToTemplateName( templateName );
+        templateName = mapTemplateName( templateName );
         SpicyPlate template = repository.get( templateName );
         if ( template != null ) {
-            SpicyPlate.LOGGER.info( "SpicyServlet got a request for {} and a template match", templateName );
             Writer writer = null;
             try {
                 writer = new OutputStreamWriter( httpResponse.getOutputStream() );
@@ -121,8 +120,9 @@ public abstract class AbstractSpicyServlet
                 }
                 populateRequestContext( httpRequest, requestContext );
                 template.render( requestContext, writer );
+                SpicyPlate.LOGGER.debug( "SpicyServlet rendered {} template", templateName );
             } catch ( Exception ex ) {
-                String message = "Unable to render template " + templateName;
+                String message = "SpicyServlet was unable to render template " + templateName;
                 SpicyPlate.LOGGER.error( message, ex );
                 httpResponse.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR, message );
             } finally {
@@ -135,9 +135,9 @@ public abstract class AbstractSpicyServlet
         }
     }
 
-    protected String pathInfoToTemplateName( String pathInfo )
+    protected String mapTemplateName( String originalTemplateName )
     {
-        return pathInfo;
+        return originalTemplateName;
     }
 
     protected void populateGlobalContext( SpicyContext globalContext )
