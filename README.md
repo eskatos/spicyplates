@@ -7,6 +7,7 @@ Boilerplate code is provided to use templates from simple strings, classpath res
 Webapp support can be used through Servlets or Filters.
 
 Several artifacts allow you to choose what templating engine:
+
 * spicyplates-velocity
 * spicyplates-stringtemplate
 * spicyplates-eruby
