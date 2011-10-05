@@ -14,12 +14,12 @@
 package org.codeartisans.spicyplates.multi;
 
 import java.io.File;
+
 import javax.servlet.ServletContext;
 
 import org.codeartisans.spicyplates.AbstractSpicyServlet;
 import org.codeartisans.spicyplates.MultiSpicyRepository;
 import org.codeartisans.spicyplates.SpicyContext;
-import org.codeartisans.spicyplates.SpicyFactory;
 import org.codeartisans.spicyplates.SpicyRepository;
 import org.codeartisans.spicyplates.eruby.ERubyClasspathSpicyRepository;
 import org.codeartisans.spicyplates.eruby.ERubyDirectorySpicyRepository;
@@ -29,33 +29,41 @@ import org.codeartisans.spicyplates.stringtemplate.STClasspathSpicyRepository;
 import org.codeartisans.spicyplates.stringtemplate.STDirectorySpicyRepository;
 import org.codeartisans.spicyplates.stringtemplate.STSpicyFactory;
 import org.codeartisans.spicyplates.stringtemplate.STWebResourcesSpicyRepository;
+import org.codeartisans.spicyplates.velocity.VelocityClasspathSpicyRepository;
+import org.codeartisans.spicyplates.velocity.VelocityDirectorySpicyRepository;
+import org.codeartisans.spicyplates.velocity.VelocitySpicyFactory;
+import org.codeartisans.spicyplates.velocity.VelocityWebResourcesSpicyRepository;
 
 public class MultiSpicyServlet
         extends AbstractSpicyServlet
 {
 
-    private SpicyFactory ERubyFactory = new ERubySpicyFactory();
-    private SpicyFactory stFactory = new STSpicyFactory();
+    private ERubySpicyFactory eRubyFactory = new ERubySpicyFactory();
+    private STSpicyFactory stFactory = new STSpicyFactory();
+    private VelocitySpicyFactory vmFactory = new VelocitySpicyFactory();
 
     @Override
     protected SpicyRepository classpathRepository( SpicyContext globalContext, String rootPackage )
     {
-        return new MultiSpicyRepository( new ERubyClasspathSpicyRepository( rootPackage, globalContext, ERubyFactory ),
-                                         new STClasspathSpicyRepository( rootPackage, globalContext, stFactory ) );
+        return new MultiSpicyRepository( new ERubyClasspathSpicyRepository( rootPackage, globalContext, eRubyFactory ),
+                                         new STClasspathSpicyRepository( rootPackage, globalContext, stFactory ),
+                                         new VelocityClasspathSpicyRepository( rootPackage, globalContext, vmFactory ) );
     }
 
     @Override
     protected SpicyRepository directoryRepository( SpicyContext globalContext, File rootDirectory )
     {
-        return new MultiSpicyRepository( new ERubyDirectorySpicyRepository( rootDirectory, globalContext, ERubyFactory ),
-                                         new STDirectorySpicyRepository( rootDirectory, globalContext, stFactory ) );
+        return new MultiSpicyRepository( new ERubyDirectorySpicyRepository( rootDirectory, globalContext, eRubyFactory ),
+                                         new STDirectorySpicyRepository( rootDirectory, globalContext, stFactory ),
+                                         new VelocityDirectorySpicyRepository( rootDirectory, globalContext, vmFactory ) );
     }
 
     @Override
     protected SpicyRepository webResourcesRepository( SpicyContext globalContext, ServletContext servletContext )
     {
-        return new MultiSpicyRepository( new ERubyWebResourcesSpicyRepository( servletContext, globalContext, ERubyFactory ),
-                                         new STWebResourcesSpicyRepository( servletContext, globalContext, stFactory ) );
+        return new MultiSpicyRepository( new ERubyWebResourcesSpicyRepository( servletContext, globalContext, eRubyFactory ),
+                                         new STWebResourcesSpicyRepository( servletContext, globalContext, stFactory ),
+                                         new VelocityWebResourcesSpicyRepository( servletContext, globalContext, vmFactory ) );
     }
 
 }

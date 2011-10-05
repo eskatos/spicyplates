@@ -11,29 +11,32 @@
  * limitations under the License.
  *
  */
-package org.codeartisans.spicyplates.stringtemplate;
+package org.codeartisans.spicyplates.velocity;
 
-import org.codeartisans.spicyplates.AbstractClasspathSpicyRepository;
+import java.io.File;
+
+import org.codeartisans.spicyplates.AbstractDirectorySpicyRepository;
 import org.codeartisans.spicyplates.SpicyContext;
+import org.codeartisans.spicyplates.SpicyContexts;
 
-public class STClasspathSpicyRepository
-        extends AbstractClasspathSpicyRepository
+public class VelocityDirectorySpicyRepository
+        extends AbstractDirectorySpicyRepository
 {
 
-    public STClasspathSpicyRepository( String rootPackage, SpicyContext globalContext, STSpicyFactory factory )
+    public VelocityDirectorySpicyRepository( File rootDir, SpicyContext globalContext, VelocitySpicyFactory factory )
     {
-        super( rootPackage, globalContext, factory );
+        super( rootDir, globalContext, factory );
     }
 
-    public STClasspathSpicyRepository( String rootPackage )
+    public VelocityDirectorySpicyRepository( File rootDir )
     {
-        super( rootPackage, new STSpicyFactory() );
+        super( rootDir, SpicyContexts.EMPTY_CONTEXT, new VelocitySpicyFactory() );
     }
 
     @Override
     protected boolean acceptTemplateName( String name )
     {
-        return name.endsWith( ".st" );
+        return name.endsWith( ".vm" );
     }
 
 }

@@ -11,38 +11,38 @@
  * limitations under the License.
  *
  */
-package org.codeartisans.spicyplates.stringtemplate;
+package org.codeartisans.spicyplates.velocity;
 
 import java.io.File;
 
 import javax.servlet.ServletContext;
 
-import org.codeartisans.spicyplates.AbstractSpicyFilter;
+import org.codeartisans.spicyplates.AbstractSpicyServlet;
 import org.codeartisans.spicyplates.SpicyContext;
 import org.codeartisans.spicyplates.SpicyRepository;
 
-public class STSpicyFilter
-        extends AbstractSpicyFilter
+public class VelocitySpicyServlet
+        extends AbstractSpicyServlet
 {
 
-    private STSpicyFactory factory = new STSpicyFactory();
+    private VelocitySpicyFactory factory = new VelocitySpicyFactory();
 
     @Override
     protected SpicyRepository classpathRepository( SpicyContext globalContext, String rootPackage )
     {
-        return new STClasspathSpicyRepository( rootPackage, globalContext, factory );
+        return new VelocityClasspathSpicyRepository( rootPackage, globalContext, factory );
     }
 
     @Override
     protected SpicyRepository directoryRepository( SpicyContext globalContext, File rootDirectory )
     {
-        return new STDirectorySpicyRepository( rootDirectory, globalContext, factory );
+        return new VelocityDirectorySpicyRepository( rootDirectory, globalContext, factory );
     }
 
     @Override
     protected SpicyRepository webResourcesRepository( SpicyContext globalContext, ServletContext servletContext )
     {
-        return new STWebResourcesSpicyRepository( servletContext, globalContext, factory );
+        return new VelocityWebResourcesSpicyRepository( servletContext, globalContext, factory );
     }
 
 }

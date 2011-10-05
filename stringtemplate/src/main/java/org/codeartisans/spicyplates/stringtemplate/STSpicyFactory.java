@@ -17,7 +17,6 @@ import org.codeartisans.java.toolbox.exceptions.NullArgumentException;
 import org.codeartisans.spicyplates.AbstractSpicyFactory;
 import org.codeartisans.spicyplates.SpicyContext;
 import org.codeartisans.spicyplates.SpicyPlate;
-
 import org.stringtemplate.v4.ST;
 
 public class STSpicyFactory

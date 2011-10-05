@@ -19,7 +19,7 @@ public final class TestData
     public static enum Implementation
     {
 
-        eRuby, StringTemplate
+        eRuby, StringTemplate, Velocity
     }
 
     static String contextsTestTemplate( Implementation impl )
@@ -29,6 +29,8 @@ public final class TestData
                 return "Hello from template : <%= $foo %>";
             case StringTemplate:
                 return "Hello from template : $foo$";
+            case Velocity:
+                return "Hello from template : $foo";
             default:
                 throw new InternalError();
         }
@@ -51,6 +53,13 @@ public final class TestData
                         + "  <li>$line$</li>\n"
                         + "}$"
                         + "</ul>";
+            case Velocity:
+                return "<h1>Using loops</h1>\n"
+                        + "<ul>\n"
+                        + "#foreach( $line in $list )"
+                        + "  <li>$line</li>\n"
+                        + "#end"
+                        + "</ul>";                
             default:
                 throw new InternalError();
         }
@@ -72,6 +81,13 @@ public final class TestData
                         + "  <li>$bean.getLeft$</li>\n"
                         + "  <li>$bean.left$</li>\n"
                         + "  <li>$bean.right$</li>\n"
+                        + "</ul>";
+            case Velocity:
+                return "<h1>Using beans</h1>\n"
+                        + "<ul>\n"
+                        + "  <li>$bean.getLeft</li>\n"
+                        + "  <li>$bean.left</li>\n"
+                        + "  <li>$bean.right</li>\n"
                         + "</ul>";
             default:
                 throw new InternalError();

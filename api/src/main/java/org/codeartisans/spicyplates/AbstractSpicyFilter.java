@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -27,7 +28,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.codeartisans.java.toolbox.StringUtils;
+import org.codeartisans.java.toolbox.Strings;
 import org.codeartisans.java.toolbox.io.IO;
 
 public abstract class AbstractSpicyFilter
@@ -93,7 +94,7 @@ public abstract class AbstractSpicyFilter
         HttpServletRequest httpRequest = ( HttpServletRequest ) request;
         HttpServletResponse httpResponse = ( HttpServletResponse ) response;
         String templateName = httpRequest.getRequestURI();
-        if ( !StringUtils.isEmpty( templateName ) && templateName.startsWith( "/" ) ) {
+        if ( !Strings.isEmpty( templateName ) && templateName.startsWith( "/" ) ) {
             templateName = templateName.substring( 1 );
         }
         templateName = mapTemplateName( templateName );

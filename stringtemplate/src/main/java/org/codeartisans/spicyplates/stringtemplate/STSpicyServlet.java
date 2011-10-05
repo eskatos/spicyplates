@@ -14,18 +14,18 @@
 package org.codeartisans.spicyplates.stringtemplate;
 
 import java.io.File;
+
 import javax.servlet.ServletContext;
 
 import org.codeartisans.spicyplates.AbstractSpicyServlet;
 import org.codeartisans.spicyplates.SpicyContext;
-import org.codeartisans.spicyplates.SpicyFactory;
 import org.codeartisans.spicyplates.SpicyRepository;
 
 public class STSpicyServlet
         extends AbstractSpicyServlet
 {
 
-    private SpicyFactory factory = new STSpicyFactory();
+    private STSpicyFactory factory = new STSpicyFactory();
 
     @Override
     protected SpicyRepository classpathRepository( SpicyContext globalContext, String rootPackage )

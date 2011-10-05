@@ -20,7 +20,6 @@ import java.util.Map;
 import org.codeartisans.spicyplates.SpicyContext;
 import org.codeartisans.spicyplates.SpicyPlate;
 import org.codeartisans.spicyplates.SpicyPlatesFailure;
-
 import org.stringtemplate.v4.ST;
 
 class STSpicyPlate

@@ -19,7 +19,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 
-import org.codeartisans.java.toolbox.StringUtils;
+import org.codeartisans.java.toolbox.Strings;
 import org.codeartisans.java.toolbox.exceptions.NullArgumentException;
 
 public abstract class AbstractSpicyFactory
@@ -73,7 +73,7 @@ public abstract class AbstractSpicyFactory
         NullArgumentException.ensureNotNull( "Template reader", templateReader );
         try {
 
-            String template = StringUtils.toString( templateReader );
+            String template = Strings.toString( templateReader );
             return spicyPlate( globalContext, template );
 
         } catch ( IOException ex ) {

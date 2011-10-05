@@ -18,11 +18,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
+
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 
-import org.codeartisans.java.toolbox.StringUtils;
+import org.codeartisans.java.toolbox.Strings;
 
 /**
  * This class is a bridge between Servlet & Filter.
@@ -157,7 +158,7 @@ final class SpicyServletSupport
 
         // Classpath repositories
         String packagesParam = config.getInitParameter( PARAM_PACKAGES );
-        if ( !StringUtils.isEmpty( packagesParam ) ) {
+        if ( !Strings.isEmpty( packagesParam ) ) {
             String[] packages = packagesParam.split( "," );
             for ( String eachPackage : packages ) {
                 repositories.add( delegate.classpathRepository( eachPackage ) );
@@ -166,7 +167,7 @@ final class SpicyServletSupport
 
         // Directory repositories
         String directoriesParam = config.getInitParameter( PARAM_DIRECTORIES );
-        if ( !StringUtils.isEmpty( directoriesParam ) ) {
+        if ( !Strings.isEmpty( directoriesParam ) ) {
             String[] directories = directoriesParam.split( "," );
             for ( String eachDirectory : directories ) {
                 repositories.add( delegate.directoryRepository( new File( eachDirectory ) ) );

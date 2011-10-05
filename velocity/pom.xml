@@ -8,25 +8,21 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>spicyplates-multi</artifactId>
+    <artifactId>spicyplates-velocity</artifactId>
     <name>${project.artifactId}</name>
     
     <dependencies>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>spicyplates-eruby</artifactId>
+            <artifactId>spicyplates-api</artifactId>
             <version>${project.version}</version>
         </dependency>
+        
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>spicyplates-stringtemplate</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>spicyplates-velocity</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>${version.velocity}</version>
         </dependency>
 
         <dependency>
@@ -34,19 +30,6 @@
             <artifactId>servlet-api</artifactId>
             <version>${version.servlet-api}</version>
             <scope>provided</scope>
-        </dependency>
-        
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${version.junit}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${version.logback}</version>
-            <scope>test</scope>
         </dependency>
         
     </dependencies>

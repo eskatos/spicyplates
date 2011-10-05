@@ -19,9 +19,10 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.servlet.ServletContext;
 
-import org.codeartisans.java.toolbox.StringUtils;
+import org.codeartisans.java.toolbox.Strings;
 import org.codeartisans.java.toolbox.exceptions.NullArgumentException;
 import org.codeartisans.java.toolbox.io.IO;
 
@@ -56,7 +57,7 @@ public abstract class AbstractWebResourcesSpicyRepository
         SpicyPlate template = null;
         if ( acceptTemplateName( name ) ) {
             String realPath = servletContext.getRealPath( name );
-            if ( !StringUtils.isEmpty( realPath ) ) {
+            if ( !Strings.isEmpty( realPath ) ) {
                 // Templates are on filesystem
                 File file = new File( realPath );
                 if ( file.exists() ) {

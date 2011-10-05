@@ -3,3 +3,4 @@ api/target
 eruby/target
 stringtemplate/target
 multi/target
+velocity/target

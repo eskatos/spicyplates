@@ -24,20 +24,24 @@ import org.codeartisans.java.toolbox.io.IO;
 import org.codeartisans.spicyplates.eruby.ERubyClasspathSpicyRepository;
 import org.codeartisans.spicyplates.eruby.ERubyDirectorySpicyRepository;
 import org.codeartisans.spicyplates.stringtemplate.STClasspathSpicyRepository;
-
-import static org.junit.Assert.*;
+import org.codeartisans.spicyplates.stringtemplate.STDirectorySpicyRepository;
+import org.codeartisans.spicyplates.velocity.VelocityClasspathSpicyRepository;
+import org.codeartisans.spicyplates.velocity.VelocityDirectorySpicyRepository;
 import org.junit.Test;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Use test resources from the target directory and output results alongside each found template.
  */
+// FIXME This test is Locale dependent!
 public class SpicyRepositoryTest
 {
 
     private static final File ROOT_FILE = new File( "target/test-classes/org/codeartisans/spicyplates/multi" );
     private static final String ROOT_PACKAGE = "org.codeartisans.spicyplates.multi";
 
-    // FIXME This test is Locale dependent!
     @Test
     public void testDirectory()
             throws IOException
@@ -58,15 +62,25 @@ public class SpicyRepositoryTest
     @Test
     public void multiTest()
     {
-        SpicyRepository ERubyRepository = new ERubyDirectorySpicyRepository( ROOT_FILE );
-        runTestOnTemplate( ERubyRepository, "index.erb" );
+        SpicyRepository eRubyRepository = new ERubyClasspathSpicyRepository( ROOT_PACKAGE );
+        runTestOnTemplate( eRubyRepository, "index.erb" );
+        eRubyRepository = new ERubyDirectorySpicyRepository( ROOT_FILE );
+        runTestOnTemplate( eRubyRepository, "index.erb" );
 
-        SpicyRepository stRepository = new STClasspathSpicyRepository( ROOT_PACKAGE );
+        SpicyRepository stRepository = new STDirectorySpicyRepository( ROOT_FILE );
+        runTestOnTemplate( stRepository, "index.st" );
+        stRepository = new STClasspathSpicyRepository( ROOT_PACKAGE );
         runTestOnTemplate( stRepository, "index.st" );
 
-        SpicyRepository multiRepository = new MultiSpicyRepository( ERubyRepository, stRepository );
+        SpicyRepository vmRepository = new VelocityDirectorySpicyRepository( ROOT_FILE );
+        runTestOnTemplate( vmRepository, "index.vm" );
+        vmRepository = new VelocityClasspathSpicyRepository( ROOT_PACKAGE );
+        runTestOnTemplate( vmRepository, "index.vm" );
+
+        SpicyRepository multiRepository = new MultiSpicyRepository( eRubyRepository, stRepository, vmRepository );
         runTestOnTemplate( multiRepository, "index.erb" );
         runTestOnTemplate( multiRepository, "index.st" );
+        runTestOnTemplate( multiRepository, "index.vm" );
     }
 
     private String runTestOnTemplate( SpicyRepository repository, String templateName )

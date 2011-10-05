@@ -23,6 +23,7 @@
         <version.servlet-api>2.5</version.servlet-api>
         <version.jruby>1.6.4</version.jruby>
         <version.stringtemplate>4.0.2</version.stringtemplate>
+        <version.velocity>1.7</version.velocity>
         <version.junit>4.9</version.junit>
     </properties>
 
@@ -30,6 +31,7 @@
         <module>api</module>
         <module>eruby</module>
         <module>stringtemplate</module>
+        <module>velocity</module>
         <module>multi</module>
     </modules>
 

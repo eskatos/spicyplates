@@ -23,7 +23,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 import javax.script.SimpleScriptContext;
 
-import org.codeartisans.java.toolbox.StringUtils;
+import org.codeartisans.java.toolbox.Strings;
 import org.codeartisans.spicyplates.SpicyContext;
 import org.codeartisans.spicyplates.SpicyPlate;
 import org.codeartisans.spicyplates.SpicyPlatesFailure;
@@ -68,7 +68,7 @@ class ERubySpicyPlate
             ruby.eval( new InputStreamReader( getClass().getResourceAsStream( "template_renderer.rb" ) ), scriptContext );
 
         } catch ( ScriptException ex ) {
-            throw new SpicyPlatesFailure( "Unable to render ERB template", ex ).andLogError( "Ruby error output was:\n" + StringUtils.indent( errorWriter.toString(), 1, "  ", "| " ) );
+            throw new SpicyPlatesFailure( "Unable to render ERB template", ex ).andLogError( "Ruby error output was:\n" + Strings.indent( errorWriter.toString(), 1, "  ", "| " ) );
         }
 
     }

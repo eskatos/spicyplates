@@ -11,29 +11,25 @@
  * limitations under the License.
  *
  */
-package org.codeartisans.spicyplates.stringtemplate;
+package org.codeartisans.spicyplates;
 
-import org.codeartisans.spicyplates.AbstractClasspathSpicyRepository;
-import org.codeartisans.spicyplates.SpicyContext;
+import org.codeartisans.spicyplates.TestData.Implementation;
+import org.codeartisans.spicyplates.velocity.VelocitySpicyFactory;
 
-public class STClasspathSpicyRepository
-        extends AbstractClasspathSpicyRepository
+public class VelocitySpicyTest
+        extends AbstractSpicyTest
 {
 
-    public STClasspathSpicyRepository( String rootPackage, SpicyContext globalContext, STSpicyFactory factory )
+    @Override
+    protected Implementation getImplementation()
     {
-        super( rootPackage, globalContext, factory );
-    }
-
-    public STClasspathSpicyRepository( String rootPackage )
-    {
-        super( rootPackage, new STSpicyFactory() );
+        return Implementation.Velocity;
     }
 
     @Override
-    protected boolean acceptTemplateName( String name )
+    protected SpicyFactory getSpicyPlateFactory()
     {
-        return name.endsWith( ".st" );
+        return new VelocitySpicyFactory();
     }
 
 }

@@ -17,13 +17,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.codeartisans.java.toolbox.StringUtils;
+import org.codeartisans.java.toolbox.Strings;
 import org.codeartisans.java.toolbox.io.IO;
 
 /**
@@ -106,7 +107,7 @@ public abstract class AbstractSpicyServlet
             throws ServletException, IOException
     {
         String templateName = httpRequest.getPathInfo();
-        if ( !StringUtils.isEmpty( templateName ) && templateName.startsWith( "/" ) ) {
+        if ( !Strings.isEmpty( templateName ) && templateName.startsWith( "/" ) ) {
             templateName = templateName.substring( 1 );
         }
         templateName = mapTemplateName( templateName );

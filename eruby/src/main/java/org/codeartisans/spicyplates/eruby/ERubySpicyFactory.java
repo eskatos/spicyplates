@@ -22,7 +22,7 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import javax.script.SimpleScriptContext;
 
-import org.codeartisans.java.toolbox.StringUtils;
+import org.codeartisans.java.toolbox.Strings;
 import org.codeartisans.java.toolbox.exceptions.NullArgumentException;
 import org.codeartisans.spicyplates.AbstractSpicyFactory;
 import org.codeartisans.spicyplates.SpicyContext;
@@ -60,7 +60,7 @@ public class ERubySpicyFactory
             return new ERubySpicyPlate( ruby, globalContext, erb );
 
         } catch ( ScriptException ex ) {
-            throw new SpicyPlatesFailure( "Unable to create ERB object from template content", ex ).andLogError( "Ruby error output was:\n" + StringUtils.indent( errorWriter.toString(), 1, "  ", "| " ) );
+            throw new SpicyPlatesFailure( "Unable to create ERB object from template content", ex ).andLogError( "Ruby error output was:\n" + Strings.indent( errorWriter.toString(), 1, "  ", "| " ) );
         }
     }
 
