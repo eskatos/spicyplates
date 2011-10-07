@@ -1,6 +1,6 @@
 # Spicy Plates
 
-Spicy Plates ease the use of templating engines for simple use cases supporting Velocity, StringTemplate and eRuby templates.
+Spicy Plates ease the use of templating engines for simple use cases supporting [Apache Velocity](http://velocity.apache.org/), [StringTemplate](http://www.stringtemplate.org/) and [eRuby](http://www.ruby-doc.org/stdlib/libdoc/erb/rdoc/) templates.
 
 Boilerplate code is provided to use templates from simple strings, classpath resources, webapp resources or files.
 
@@ -17,8 +17,10 @@ Several artifacts allow you to choose what templating engine:
 
 # Dependency
 
-The project is hosted in maven central.
-[here](https://repository.sonatype.org/index.html#nexus-search;quick~spicyplates) you'll find a quick copy/paste for the dependency.
+No release nor snapshots have been published yet.
+For now you'll have to clone this repository and run a "mvn install" command in the projects root.
+
+SpicyPlates depends on a SNAPSHOT version of [java-toolbox](https://github.com/codeartisans/java-toolbox), you will need to "mvn install" it too.
 
 # Usage
 
