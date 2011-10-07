@@ -22,6 +22,15 @@ For now you'll have to clone this repository and run a "mvn install" command in 
 
 SpicyPlates depends on a SNAPSHOT version of [java-toolbox](https://github.com/codeartisans/java-toolbox), you will need to "mvn install" it too.
 
+Once this is done use the following snippet to add the maven dependency for spicyplates-eruby:
+
+        <dependency>
+            <groupId>org.codeartisans.spicyplates</groupId>
+            <artifactId>spicyplates-eruby</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+
 # Usage
 
 A servlet and a servlet filter are provided for quick usage in a webapp:
