@@ -17,7 +17,7 @@
     <url>http://github.com/eskatos/spicyplates</url>
 
     <properties>
-        <version.java-toolbox>1.5-SNAPSHOT</version.java-toolbox>
+        <version.java-toolbox>1.5</version.java-toolbox>
         <version.slf4j>1.6.2</version.slf4j>
         <version.logback>0.9.29</version.logback>
         <version.servlet-api>2.5</version.servlet-api>
