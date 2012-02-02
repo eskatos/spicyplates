@@ -21,6 +21,7 @@
 ## Next
 
 * (----) Provide a way to register template helpers
+* (----) Example integration: Markdown & Helpers with eRuby, JMD & pagedown
 * (----) Wrap Jamon
 
 
